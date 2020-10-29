@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+echo 'Build Anbernic RG350M kernel'
+
+# Config kernel
+make "rg350m_kernel_defconfig" "O=$1" BR2_EXTERNAL=board/rg350m
+
+# Enter build directory
+cd "$1" 
+
+set -x
+
+# Build linux
+make linux
+
+# Update environment[LINUX_DIR]
+eval $(make -s printvars VARS=LINUX_DIR QUOTED_VARS=YES)
+
+# Create modules squashfs
+"${LINUX_DIR}/create_modules_fs.sh"
+
+# Copy modules.squashfs
+cp -f "${LINUX_DIR}/modules.squashfs" "images/modules.squashfs"

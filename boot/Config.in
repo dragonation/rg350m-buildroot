@@ -1,0 +1,5 @@
+menu "Bootloaders"
+
+source "boot/ubiboot/Config.in"
+
+endmenu

@@ -1,0 +1,253 @@
+menu "Target packages"
+
+	source "package/busybox/Config.in"
+	source "package/skeleton/Config.in"
+	source "package/skeleton-custom/Config.in"
+	source "package/skeleton-init-common/Config.in"
+	source "package/skeleton-init-none/Config.in"
+	source "package/skeleton-init-openrc/Config.in"
+	source "package/skeleton-init-systemd/Config.in"
+	source "package/skeleton-init-sysv/Config.in"
+
+	menu "Audio and video applications"
+		source "package/alsa-utils/Config.in"
+		source "package/flac/Config.in"
+		source "package/fluidsynth/Config.in"
+		source "package/modplugtools/Config.in"
+		source "package/mpg123/Config.in"
+	endmenu
+
+	menu "Compressors and decompressors"
+		source "package/bzip2/Config.in"
+		source "package/p7zip/Config.in"
+		source "package/unrar/Config.in"
+		source "package/xz/Config.in"
+		source "package/zstd/Config.in"
+	endmenu
+
+	menu "Debugging, profiling and benchmark"
+		source "package/dmalloc/Config.in"
+		source "package/dstat/Config.in"
+		source "package/gdb/Config.in"
+		source "package/fio/Config.in"
+		source "package/memstat/Config.in"
+		source "package/netperf/Config.in"
+		source "package/oprofile/Config.in"
+		source "package/pv/Config.in"
+		source "package/strace/Config.in"
+		source "package/stress/Config.in"
+	endmenu
+
+	menu "Development tools"
+		source "package/binutils/Config.in"
+		source "package/findutils/Config.in"
+		source "package/flex/Config.in"
+		source "package/gawk/Config.in"
+		source "package/gettext/Config.in"
+		source "package/gettext-gnu/Config.in"
+		source "package/gperf/Config.in"
+		source "package/libtool/Config.in"
+		source "package/make/Config.in"
+		source "package/patch/Config.in"
+		source "package/pkgconf/Config.in"
+		source "package/sed/Config.in"
+	endmenu
+
+	menu "Filesystem and flash utilities"
+		source "package/dosfstools/Config.in"
+		source "package/e2fsprogs/Config.in"
+		source "package/exfat/Config.in"
+		source "package/ntfs-3g/Config.in"
+		source "package/squashfs/Config.in"
+	endmenu
+
+	menu "Fonts"
+		source "package/dejavu/Config.in"
+	endmenu
+
+	menu "Graphic libraries and applications (graphic/text)"
+		source "package/fbgrab/Config.in"
+		source "package/fbv/Config.in"
+		source "package/sdl/Config.in"
+		source "package/sdl_gfx/Config.in"
+		source "package/sdl_image/Config.in"
+		source "package/sdl_mixer/Config.in"
+		source "package/sdl_net/Config.in"
+		source "package/sdl_sound/Config.in"
+		source "package/sdl_ttf/Config.in"
+		source "package/sdl2/Config.in"
+		source "package/sdl2_gfx/Config.in"
+		source "package/sdl2_image/Config.in"
+		source "package/sdl2_mixer/Config.in"
+		source "package/sdl2_net/Config.in"
+		source "package/sdl2_ttf/Config.in"
+	endmenu
+
+	menu "Hardware handling"
+
+		menu "Firmware"
+			source "package/linux-firmware/Config.in"
+		endmenu
+
+		source "package/eudev/Config.in"
+		source "package/evtest/Config.in"
+		source "package/fmtools/Config.in"
+		source "package/i2c-tools/Config.in"
+		source "package/uboot-tools/Config.in"
+		source "package/udev/Config.in"
+		
+	endmenu
+
+	menu "Interpreter languages and scripting"
+		source "package/python/Config.in"
+		source "package/python3/Config.in"
+		if BR2_PACKAGE_PYTHON || BR2_PACKAGE_PYTHON3
+			menu "External python modules"
+				source "package/python-pygame/Config.in"
+				source "package/python-setuptools/Config.in"
+				source "package/python-urllib3/Config.in"
+			endmenu
+		endif
+	endmenu
+
+	menu "Libraries"
+
+		menu "Audio/Sound"
+			source "package/alsa-lib/Config.in"
+			source "package/libao/Config.in"
+			source "package/libmad/Config.in"
+			source "package/libmodplug/Config.in"
+			source "package/libsndfile/Config.in"
+			source "package/libvorbis/Config.in"
+			source "package/openal/Config.in"
+			source "package/opus/Config.in"
+			source "package/opusfile/Config.in"
+			source "package/speex/Config.in"
+			source "package/taglib/Config.in"
+			source "package/tremor/Config.in"
+		endmenu
+
+		menu "Compression and decompression"
+			source "package/lz4/Config.in"
+			source "package/lzip/Config.in"
+			source "package/lzo/Config.in"
+			source "package/zlib/Config.in"
+		endmenu
+
+		menu "Crypto"
+			source "package/libtomcrypt/Config.in"
+			source "package/openssl/Config.in"
+			source "package/trousers/Config.in"
+		endmenu
+
+		menu "Database"
+			source "package/sqlite/Config.in"
+		endmenu
+
+		menu "Filesystem"
+			source "package/libconfuse/Config.in"
+			source "package/libfuse/Config.in"
+			source "package/liblockfile/Config.in"
+			source "package/libsysfs/Config.in"
+			source "package/physfs/Config.in"
+		endmenu
+
+		menu "Graphics"
+			source "package/freetype/Config.in"
+			source "package/jpeg/Config.in"
+			source "package/kmscube/Config.in"
+			source "package/libdrm/Config.in"
+			source "package/libpng/Config.in"
+			source "package/pixman/Config.in"
+		endmenu
+
+		menu "Hardware handling"
+			source "package/libaio/Config.in"
+			source "package/tslib/Config.in"
+		endmenu
+
+		menu "JSON/XML"
+			source "package/expat/Config.in"
+			source "package/libxml2/Config.in"
+		endmenu
+
+		menu "Multimedia"
+			source "package/libogg/Config.in"
+			source "package/libtheora/Config.in"
+		endmenu
+
+		menu "Text and terminal handling"
+			source "package/icu/Config.in"
+			source "package/libiconv/Config.in"
+			source "package/ncurses/Config.in"
+			source "package/pcre/Config.in"
+			source "package/popt/Config.in"
+			source "package/readline/Config.in"
+		endmenu
+
+		menu "Other"
+			source "package/boost/Config.in"
+			source "package/glm/Config.in"
+			source "package/gmp/Config.in"
+			source "package/libdaemon/Config.in"
+			source "package/libevent/Config.in"
+			source "package/libffi/Config.in"
+			source "package/libglib2/Config.in"
+			source "package/libpthread-stubs/Config.in"
+			source "package/libtommath/Config.in"
+			source "package/mpc/Config.in"
+			source "package/mpfr/Config.in"
+			source "package/tzdata/Config.in"
+		endmenu
+
+	endmenu
+
+	menu "Miscellaneous"
+		source "package/shared-mime-info/Config.in"
+	endmenu
+
+	menu "Networking applications"
+		source "package/avahi/Config.in"
+		source "package/bwm-ng/Config.in"
+		source "package/dhcpdump/Config.in"
+		source "package/dropbear/Config.in"
+		source "package/filemq/Config.in"
+		source "package/hostapd/Config.in"
+		source "package/iw/Config.in"
+		source "package/netcat/Config.in"
+		source "package/libpcap/Config.in"
+		source "package/libnl/Config.in"
+		source "package/ntp/Config.in"
+		source "package/openssh/Config.in"
+		source "package/phytool/Config.in"
+		source "package/rsync/Config.in"
+		source "package/tcpdump/Config.in"
+		source "package/vsftpd/Config.in"
+		source "package/wget/Config.in"
+		source "package/wireless_tools/Config.in"
+		source "package/wpa_supplicant/Config.in"
+		source "package/xinetd/Config.in"
+	endmenu
+
+	menu "Shell and utilities"
+		source "package/dialog/Config.in"
+		source "package/file/Config.in"
+		source "package/lockfile-progs/Config.in"
+		source "package/screen/Config.in"
+	endmenu
+
+	menu "System tools"
+		source "package/acl/Config.in"
+		source "package/attr/Config.in"
+		source "package/htop/Config.in"
+		source "package/kmod/Config.in"
+		source "package/procps-ng/Config.in"
+		source "package/tar/Config.in"
+		source "package/util-linux/Config.in"
+	endmenu
+
+	menu "Text editors and viewers"
+		source "package/nano/Config.in"
+	endmenu
+
+endmenu

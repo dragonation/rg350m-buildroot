@@ -1,0 +1,43 @@
+config BR2_TARGET_PLATFORM
+	string "Target platform"
+	help
+	  Target platform, e.g. anbernic.
+config BR2_TARGET_DEVICE
+	string "Target device"
+	help
+	  Target device, e.g. rg350m.
+
+menu "RG350M packages"
+comment "Frontends"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/gmenu2x/Config.in"
+
+comment "Libraries"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/allegro/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/bennugd/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/devil/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/fluidsynth1/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/libjpeg8/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/libini/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/libopk/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/libpng14/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/libshake/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/libxdgmime/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/love2d/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/utf8cpp/Config.in"
+
+comment "System tools"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/od-passwd-config/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/pwswd/Config.in"
+
+comment "Utilities"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/bar/Config.in"
+
+comment "Graphics drivers"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/etna_viv/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/mesa3d-etna_viv/Config.in"
+
+comment "Hardware handling"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/lowpowd/Config.in"
+	source "$BR2_EXTERNAL_RG350M_PATH/package/unlockvt/Config.in"
+
+endmenu

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -ex
+
+echo 'Build Anbernic RG350M userland'
+
+# Config userland
+make "rg350m_userland_defconfig" "O=$1" BR2_EXTERNAL=board/rg350m
+
+# Enter build directory
+cd "$1"
+
+# Build userland
+make world

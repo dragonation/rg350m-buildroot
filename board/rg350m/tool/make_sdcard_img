@@ -1,0 +1,82 @@
+#!/bin/bash
+
+set -e
+
+KERNEL_BUILD_DIR=output_rg350m_kernel
+USERLAND_BUILD_DIR=output_rg350m_userland
+FINAL_BUILD_DIR=output_rg350m
+
+# Build kernel
+./board/rg350m/tool/build_kernel "$KERNEL_BUILD_DIR"
+
+# Build userland
+./board/rg350m/tool/build_userland "$USERLAND_BUILD_DIR"
+
+# Build image resources
+cd "$USERLAND_BUILD_DIR" 
+make mininit host-rg350m-imager
+cd ..
+
+# Preapre output folder
+mkdir -p "$FINAL_BUILD_DIR"
+mkdir -p "${FINAL_BUILD_DIR}/images"
+mkdir -p "${FINAL_BUILD_DIR}/binaries"
+mkdir -p "${FINAL_BUILD_DIR}/partitions"
+
+# Prepare system image resources
+cp -f "${USERLAND_BUILD_DIR}/images/mininit-syspart" \
+      "${FINAL_BUILD_DIR}/binaries/"
+cp -f "${KERNEL_BUILD_DIR}/images/vmlinuz.bin" \
+      "${FINAL_BUILD_DIR}/binaries/vmlinuz.bin"
+cp -f "${KERNEL_BUILD_DIR}/images/modules.squashfs" \
+      "${FINAL_BUILD_DIR}/binaries/modules.squashfs"
+cp -f "${USERLAND_BUILD_DIR}/images/rootfs.squashfs" \
+      "${FINAL_BUILD_DIR}/binaries/rootfs.squashfs"
+
+# Fallbacks are empty as this is the initial image.
+echo -n > "${FINAL_BUILD_DIR}/binaries/vmlinuz.bak"
+echo -n > "${FINAL_BUILD_DIR}/binaries/modules.squashfs.bak"
+
+# Copy apps
+rm -fr "${FINAL_BUILD_DIR}/binaries/apps"
+mkdir -p "${FINAL_BUILD_DIR}/binaries/apps"
+if [ -d opks ]; then
+	cp opks/*.opk "${FINAL_BUILD_DIR}/binaries/apps/"
+fi
+
+# Bootloader
+cp -f "${USERLAND_BUILD_DIR}/images/ubiboot.bin" \
+      "${FINAL_BUILD_DIR}/partitions/ubiboot.bin"
+
+# MBR
+"${USERLAND_BUILD_DIR}/host/opt/rg350m-imager/bin/create_mbr" \
+    "${FINAL_BUILD_DIR}/partitions/mbr.bin"
+
+# Partitions
+"${USERLAND_BUILD_DIR}/host/opt/rg350m-imager/bin/create_system_image" \
+    "${FINAL_BUILD_DIR}/binaries" \
+    "${FINAL_BUILD_DIR}/partitions/system.bin"
+"${USERLAND_BUILD_DIR}/host/opt/rg350m-imager/bin/create_data_image" \
+    "${FINAL_BUILD_DIR}/binaries/apps" \
+    "${FINAL_BUILD_DIR}" \
+    "${FINAL_BUILD_DIR}/partitions/data.bin"
+
+# Create final image
+echo 'Creating SD card image...'
+NAME="rg350m-$(date +'%Y-%m-%d')$(support/scripts/setlocalversion)"
+rm -f "${FINAL_BUILD_DIR}/images/${NAME}.bin"
+"${USERLAND_BUILD_DIR}/host/opt/rg350m-imager/bin/make_sdcard_image" \
+  	"${FINAL_BUILD_DIR}/partitions/mbr.bin" \
+  	"${FINAL_BUILD_DIR}/partitions/ubiboot.bin" \
+  	"${FINAL_BUILD_DIR}/partitions/system.bin" \
+  	"${FINAL_BUILD_DIR}/partitions/data.bin" \
+  	"${FINAL_BUILD_DIR}/images/${NAME}.bin"
+echo Size: $(du -sh "${FINAL_BUILD_DIR}/images/${NAME}.bin")
+
+# Compress the image
+echo 'Compressing SD card image...'
+cd "${FINAL_BUILD_DIR}"/images
+zip "${NAME}.zip" "${NAME}.bin"
+
+# Remove the uncompressed version
+rm "${NAME}.bin"

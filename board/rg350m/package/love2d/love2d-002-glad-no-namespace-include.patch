@@ -1,0 +1,70 @@
+From 45478e342f84c7bc9fe171ca67226a6b1aa2b2cf Mon Sep 17 00:00:00 2001
+From: Gleb Mazovetskiy <glex.spb@gmail.com>
+Date: Sat, 10 Oct 2020 12:00:23 +0100
+Subject: [PATCH] glad-no-namespace-include
+
+---
+ src/libraries/glad/glad.cpp |  5 ++---
+ src/libraries/glad/glad.hpp | 16 ++++++++--------
+ 2 files changed, 10 insertions(+), 11 deletions(-)
+
+diff --git a/src/libraries/glad/glad.cpp b/src/libraries/glad/glad.cpp
+index a9f8af1b..b0a29ea7 100644
+--- a/src/libraries/glad/glad.cpp
++++ b/src/libraries/glad/glad.cpp
+@@ -1,9 +1,6 @@
+ #include <string.h>
+ #include "glad.hpp"
+ 
+-namespace glad {
+-
+-
+ #ifdef GLAD_USE_SDL
+ #include <SDL.h>
+ #if !SDL_VERSION_ATLEAST(2,0,0)
+@@ -13,6 +10,8 @@ namespace glad {
+ #include <assert.h>
+ #endif
+ 
++namespace glad {
++
+ bool gladLoadGL(void) {
+ #ifdef GLAD_USE_SDL
+     return gladLoadGLLoader(SDL_GL_GetProcAddress);
+diff --git a/src/libraries/glad/glad.hpp b/src/libraries/glad/glad.hpp
+index 195d2054..1672a44c 100644
+--- a/src/libraries/glad/glad.hpp
++++ b/src/libraries/glad/glad.hpp
+@@ -62,14 +62,6 @@
+ 
+ #include <stddef.h>
+ 
+-namespace glad {
+-
+-bool gladLoadGL(void);
+-
+-typedef void* (* LOADER)(const char *name);
+-bool gladLoadGLLoader(LOADER);
+-
+-
+ #ifndef GLEXT_64_TYPES_DEFINED
+ /* This code block is duplicated in glxext.h, so must be protected */
+ #define GLEXT_64_TYPES_DEFINED
+@@ -107,6 +99,14 @@ typedef unsigned __int64 uint64_t;
+ #include <inttypes.h>
+ #endif
+ #endif
++
++namespace glad {
++
++bool gladLoadGL(void);
++
++typedef void* (* LOADER)(const char *name);
++bool gladLoadGLLoader(LOADER);
++
+ typedef unsigned int GLenum;
+ typedef unsigned char GLboolean;
+ typedef unsigned int GLbitfield;
+-- 
+2.25.1
+

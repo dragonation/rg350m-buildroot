@@ -1,0 +1,8 @@
+config BR2_PACKAGE_OD_PASSWD_CONFIG
+	bool "OpenDingux password configuration GUI"
+	select BR2_PACKAGE_PYTHON
+	select BR2_PACKAGE_PYTHON_PYGAME
+	select BR2_PACKAGE_PYTHON_PYGAME_FONT
+	help
+	  This small application lets the user configure their password
+	  on OpenDingux based systems.

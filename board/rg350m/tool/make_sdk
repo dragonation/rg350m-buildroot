@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -ex
+
+USERLAND_BUILD_DIR=output_rg350m_userland
+FINAL_BUILD_DIR=output_rg350m
+
+echo 'Build Anbernic RG350M SDK'
+
+# Config sdk
+make "rg350m_userland_defconfig" "O=$USERLAND_BUILD_DIR" BR2_EXTERNAL=board/rg350m
+
+# Enter build directory
+cd "$USERLAND_BUILD_DIR" 
+
+# Build sdk
+make sdk
+
+# Copy the sdk to output
+cd ..
+mkdir -p "${FINAL_BUILD_DIR}/images"
+cp -f "${USERLAND_BUILD_DIR}/images/mipsel-anbernic-linux-uclibc_sdk-buildroot.tar.gz" \
+      "${FINAL_BUILD_DIR}/images/mipsel-anbernic-linux-uclibc-sdk.tar.gz"
